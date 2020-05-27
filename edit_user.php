@@ -19,21 +19,13 @@ try {
 			':CEDULA'=>$CEDULA
 		));
 		$resultado=$buscar_CEDULA->fetch();
+
 	}else{
-		header('Location: usu.php');
+		header('Location: admin.php');
 	}
 
 	if(isset($_POST['guardar'])){
 		$ROL=$_POST['ROL'];
-
-		if ($ROL=="administrador"){
-			$ROL=1;
-		}
-
-		if ($ROL=="usuario"){
-			$ROL=2;
-		}
-
 		if(!empty($ROL)){
 				$consulta_update=$con->prepare(' UPDATE usuario SET  
 					ROL=:ROL
@@ -64,10 +56,14 @@ try {
 		<form action="" method="post">
 			<div class="form-group">
 				<label>Usuario</label>
-				<p><?php echo $resultado['USUARIO'];?></p>
+				<td> <?php echo $resultado['USUARIO'];?> </td>
 				<label>Rol</label>
-				<input type="radio" name="rol" value="administrador">
-				<input type="radio" name="rol" value="usuario">
+				<br>
+				<label>Administrador</label>
+				<input type="radio" name="ROL" value="1">
+				<label>Usuario</label>
+				<input type="radio" name="ROL" value="2">
+			</div>
 			<div class="btn-group">
 				<a href="admin.php" class="btn btn__danger">Cancelar</a>
 				<input type="submit" name="guardar" value="Guardar" class="btn btn-primary">

@@ -92,7 +92,8 @@ try {
       }?></td>
     </tr>
      </table> 
-     <a href="edit_user.php?CEDULA=<?php echo $fila['CEDULA']; ?>" class="btn btn-info">Editar</a>  
+     <a href="edit_user.php?CEDULA=<?php echo $fila['CEDULA']; ?>" class="btn btn-info">Editar</a>
+     <a href="admin.php" class="btn btn-info">Atras</a>  
         </div>         
     </body>
 </html>
