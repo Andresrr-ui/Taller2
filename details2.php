@@ -1,13 +1,35 @@
 <?php
- session_start();
-  $comparar= $_SESSION['cedula'];
-    if(!isset($_SESSION['rol'])){
-        header('location: index.php');
-    }else{
-        if($_SESSION['rol'] != 2){
-            header('location: index.php');
-        }
-    }
+	$database="taller2";
+	$user='prueba';
+	$password='prueba123';
+
+try {
+	
+	$con=new PDO('mysql:host=localhost;dbname='.$database,$user,$password);
+
+} catch (PDOException $e) {
+	echo "Error".$e->getMessage();
+}
+
+	if(isset($_GET['CEDULA'])){
+		$CEDULA=(int) $_GET['CEDULA'];
+
+		$buscar_CEDULA=$con->prepare('SELECT * FROM persona WHERE CEDULA=:CEDULA LIMIT 1');
+		$buscar_CEDULA->execute(array(
+			':CEDULA'=>$CEDULA
+		));
+		$resultado=$buscar_CEDULA->fetch();
+
+    $roles=$con->prepare('SELECT * FROM usuario WHERE CEDULA=:CEDULA LIMIT 1');
+    $roles->execute(array(
+      ':CEDULA'=>$CEDULA
+    ));
+    $rol=$roles->fetch();
+
+	}else{
+		header('Location: index.php');
+	}
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -36,46 +58,41 @@
     </span>
   </div>
 </nav>
-
-<?php
-   include_once dirname(__FILE__) . '/config.php';
-            $str_datos = "";
-             $con=mysqli_connect(HOST_DB,USUARIO_DB,USUARIO_PASS,NOMBRE_DB);
-                if (mysqli_connect_errno()) {
-                $str_datos.= "Error en la conexión: " . mysqli_connect_error();
-            }
-?>
-
 <br>
   <div class="contenedor">
         <table table class="table table-sm table-dark">
 <thead>
     <tr>
-      <th scope="row"><h3> Otros Usuarios</h3></th>
+      <th scope="row"><h3>Usuario</h3></th>
       </tr>
   </thead>
   <tbody>
-
-          <?php
-            $sql = "SELECT * from usuario where not CEDULA =(".$comparar.")" ;
-            $resultado = mysqli_query($con,$sql);
-            while($fila = mysqli_fetch_array($resultado)) {
-         ?>
-
     <tr>
-      <td><?php echo $fila['USUARIO']?></td>
-      <td><?php if($fila['ROL']==2){
+      <th scope="row">Nombre</th>
+      <td> <?php echo $resultado['NOMBRE'];?> </td>
+    </tr>
+    <tr>
+      <th scope="row">Apellido</th>
+      <td><?php echo $resultado['APELLIDO']; ?></td>
+    </tr>
+    <tr>
+      <th scope="row">Correo</th>
+      <td><?php echo $resultado['CORREO']; ?></td>
+    </tr>
+    <tr>
+      <th scope="row">Edad</th>
+      <td><?php echo $resultado['EDAD']; ?></td>
+    </tr>
+    <tr>
+      <th scope="row">Rol</th>
+      <td><?php if($rol['ROL']==2){
         echo ("Usuario");
       }else {
         echo ("Administrador");
       }?></td>
-      <td><a href="details.php?CEDULA=<?php echo $fila['CEDULA']; ?>" class="btn btn-info">Revisar perfil</a></td>
-    </tr>   
-    <?php
-   }
-    ?>
+    </tr>
      </table> 
-     <a href="usu.php"  class="btn btn-info">Regresar</a>     
+     <a href="edit_user.php?CEDULA=<?php echo $fila['CEDULA']; ?>" class="btn btn-info">Editar</a>  
         </div>         
     </body>
 </html>

@@ -23,21 +23,43 @@
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
 </head>
 <body>
-   <nav class="navbar navbar-expand-lg navbar-light bg-light">
- <div class="collapse navbar-collapse" id="navbarText">
-    <ul class="navbar-nav mr-auto">
-      <li class="nav-item active">
-        <h4 class="nav-link">Bienvenido Admin<span class="sr-only"></span></h4>
-      </li>
-      <li class="nav-item active">
-        <a class="nav-link" href="admin.php">Home<span class="sr-only">(current)</span></a>
-      </li>
-  </ul>
-    <span class="navbar-text">
-     <a class="btn btn-primary" href="cerrar.php">Cerrar Sesion</a>
-    </span>
-  </div>
-</nav>
-<h1>Admin <h1>
-</body>
+<?php
+   include_once dirname(__FILE__) . '/config.php';
+            $str_datos = "";
+             $con=mysqli_connect(HOST_DB,USUARIO_DB,USUARIO_PASS,NOMBRE_DB);
+                if (mysqli_connect_errno()) {
+                $str_datos.= "Error en la conexión: " . mysqli_connect_error();
+            }
+?>
+
+<br>
+  <div class="contenedor">
+        <table table class="table table-sm table-dark">
+<thead>
+    <tr>
+      <th scope="row"><h3>Usuarios</h3></th>
+      </tr>
+  </thead>
+  <tbody>
+
+          <?php
+            $sql = "SELECT * from usuario" ;
+            $resultado = mysqli_query($con,$sql);
+            while($fila = mysqli_fetch_array($resultado)) {
+         ?>
+    <tr>
+      <td><?php echo $fila['USUARIO']?></td>
+      <td><?php if($fila['ROL']==2){
+        echo ("Usuario");
+      }else {
+        echo ("Administrador");
+      }?></td>
+      <td><a href="details2.php?CEDULA=<?php echo $fila['CEDULA']; ?>" class="btn btn-info">Revisar perfil</a></td>
+    </tr>   
+    <?php
+   }
+    ?>
+     </table>   
+        </div>         
+    </body>
 </html>
