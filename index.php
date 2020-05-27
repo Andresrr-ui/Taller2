@@ -33,8 +33,10 @@
         $row = $query->fetch(PDO::FETCH_NUM);
         
         if($row == true){
+            $cedula = $row[3];
             $rol = $row[4];
             
+            $_SESSION['cedula'] = $cedula;
             $_SESSION['rol'] = $rol;
             switch($rol){
                 case 1:

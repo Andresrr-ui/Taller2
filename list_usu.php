@@ -51,57 +51,34 @@
         <table table class="table table-sm table-dark">
 <thead>
     <tr>
-      <th scope="row"><h3>Usuario</h3></th>
+      <th scope="row"><h3> Otros Usuarios</h3></th>
       </tr>
   </thead>
   <tbody>
 
           <?php
-            $sql = "SELECT * from persona where CEDULA= (".$comparar.")" ;
+            $sql = "SELECT * from usuario where not CEDULA =(".$comparar.")" ;
             $resultado = mysqli_query($con,$sql);
             while($fila = mysqli_fetch_array($resultado)) {
          ?>
 
     <tr>
-      <th scope="row">Cedula</th>
-      <td><?php echo $fila['CEDULA']?></td>
-    </tr>
-    <tr>
-      <th scope="row">Nombre</th>
-      <td><?php echo $fila['NOMBRE']?></td>
-    </tr>
-    <tr>
-      <th scope="row">Apellido</th>
-      <td><?php echo $fila['APELLIDO']?></td>
-    </tr>
-    <tr>
-      <th scope="row">Correo</th>
-      <td><?php echo $fila['CORREO']?></td>
-    </tr>
-    <tr>
-      <th scope="row">Edad</th>
-      <td><?php echo $fila['EDAD']?></td>
-    </tr>
-    <?php
-      $sql1 = "SELECT ROL from usuario where CEDULA= (".$comparar.")" ;
-      $resultado1 = mysqli_query($con,$sql1);
-      while($fila1 = mysqli_fetch_array($resultado1)) {
-         ?>
-      <th scope="row">Rol Actual</th>
-      <td><?php if($fila1['ROL']==2){
+      <td><?php echo $fila['USUARIO']?></td>
+      <td><?php if($fila['ROL']==2){
         echo ("Usuario");
+      }else {
+        echo ("Administrador");
       }?></td>
-    </tr>
-<?php
+      <td><a href="details.php"  class="btn btn-info">Revisar perfil</a>    </td>
+    </tr>   
+    <?php
    }
     ?>
      </table>     
            <a href="update.php?CEDULA=<?php echo $fila['CEDULA']; ?>"  class="btn btn-warning" >Editar Informacion</a>  
            <a href="list_usu.php"  class="btn btn-info">Listado de todos los usuarios</a>  
 
-    <?php
-   }
-    ?>
+
          
         </div>         
     </body>

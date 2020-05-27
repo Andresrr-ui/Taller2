@@ -18,7 +18,7 @@
                 $contra_cif= password_hash($password, PASSWORD_DEFAULT);
 
 
-                $sql = "INSERT INTO usuario (usuario, cedula, password, rol) VALUES('$usuario','$cedula','$contra_cif','$rol')";
+                $sql = "INSERT INTO usuario (usuario, cedula, password, rol) VALUES('.$usuario.','$.cedula.','$.contra_cif.','.$rol.')";
                 
                 if($conexion->query($sql) === true){
                     echo "<script> alert('usuario registrado');</script>";
